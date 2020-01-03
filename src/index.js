@@ -1,5 +1,6 @@
 import { PNG } from 'pngjs/browser';
 import rough from 'roughjs/dist/rough.umd';
+import { saveAs } from 'file-saver';
 
 import { gridDimensions, coordinatesForGridLocation } from './hexagonal-grid.js';
 
@@ -52,6 +53,18 @@ function pointForSpot(spotSize, n, m) {
   }
 }
 
+function saveFile(svgElement) {
+  svgElement.setAttribute('version', '1.1');
+  svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svgElement.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+  const svgData = svgElement.outerHTML;
+  const blob = new Blob(
+    [svgData],
+    { type: "text/plain;charset=utf-8" }
+  );
+  saveAs(blob, 'half-tone.svg');
+}
+
 const xhr = new XMLHttpRequest();
 xhr.open('GET', imageUrl, true);
 xhr.responseType = 'arraybuffer';
@@ -69,6 +82,8 @@ xhr.onload = function(e){
     svgElement.setAttribute('height', png.height);
 
     halfTone(png, svgElement);
+
+    document.getElementById('download-link').onclick = function() { saveFile(svgElement); return false; }
   }
 };
 xhr.send();
