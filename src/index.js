@@ -2,24 +2,24 @@ import { PNG } from 'pngjs/browser';
 import imageUrl from '../simon.png';
 import rough from 'roughjs/dist/rough.umd';
 
-function halfTone(png, canvasElement) {
+function halfTone(png, svgElement) {
   const spotSize = 6;
   const horizontalNumberOfSpots = Math.round(png.width / spotSize)
   const verticalNumberOfSpots = Math.round(png.height / spotSize)
-  const context = rough.canvas(canvasElement);
+  const context = rough.svg(svgElement);
 
   for (let n = 0; n < horizontalNumberOfSpots; n++) {
     for (let m = 0; m < verticalNumberOfSpots; m++) {
-      halfToneSpot(context, png, spotSize, n, m);
+      halfToneSpot(svgElement, context, png, spotSize, n, m);
     }
   }
 }
 
-function halfToneSpot(context, png, spotSize, n, m) {
+function halfToneSpot(svgElement, context, png, spotSize, n, m) {
   const point = pointForSpot(spotSize, n, m);
   const radius = (Math.sqrt(1 - (greyScaleForPixel(png, point) / 256)) * spotSize) / 2
 
-  fillHexagon(context, radius, point.x, point.y);
+  fillHexagon(svgElement, context, radius, point.x, point.y);
 }
 
 function greyScaleForPixel(png, point) {
@@ -27,7 +27,7 @@ function greyScaleForPixel(png, point) {
   return (png.data[index] + png.data[index + 1] + png.data[index + 2]) / 3;
 }
 
-function fillHexagon(context, radius, x, y) {
+function fillHexagon(svgElement, context, radius, x, y) {
   const corners = [1, 2, 3, 4, 5, 6].map( i => {
     const angle = (1 + 2 * i) * Math.PI / 6;
     const cX = x + (Math.cos(angle) * radius);
@@ -35,12 +35,12 @@ function fillHexagon(context, radius, x, y) {
     return [cX, cY];
   });
 
-  context.polygon(corners, {
+  svgElement.appendChild(context.polygon(corners, {
     fill: 'black',
     roughness: 0.1,
     strokeWidth: 0.001,
     fillStyle: 'solid'
-  });
+  }));
 }
 
 function pointForSpot(spotSize, n, m) {
@@ -62,11 +62,11 @@ xhr.onload = function(e){
       console.log(png);
     });
 
-    const canvasElement = document.getElementById("half-tone");
-    canvasElement.setAttribute('width', png.width);
-    canvasElement.setAttribute('height', png.height);
+    const svgElement = document.getElementById("half-tone");
+    svgElement.setAttribute('width', png.width);
+    svgElement.setAttribute('height', png.height);
 
-    halfTone(png, canvasElement);
+    halfTone(png, svgElement);
   }
 };
 xhr.send();
