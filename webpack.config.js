@@ -3,7 +3,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(html)$/i,
+        test: /\.(html|png)$/i,
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
