@@ -1,22 +1,24 @@
 import { PNG } from 'pngjs/browser';
-import imageUrl from '../simon.png';
 import rough from 'roughjs/dist/rough.umd';
+
+import { gridDimensions, coordinatesForGridLocation } from './hexagonal-grid.js';
+
+import imageUrl from '../simon.png';
 
 function halfTone(png, svgElement) {
   const spotSize = 9;
-  const horizontalNumberOfSpots = Math.round(png.width / spotSize)
-  const verticalNumberOfSpots = Math.round(png.height / spotSize)
+  const dimensions = gridDimensions(png.width, png.height, spotSize);
   const context = rough.svg(svgElement);
 
-  for (let n = 0; n < horizontalNumberOfSpots; n++) {
-    for (let m = 0; m < verticalNumberOfSpots; m++) {
+  for (let n = 0; n < dimensions.horizontal; n++) {
+    for (let m = 0; m < dimensions.vertical; m++) {
       halfToneSpot(svgElement, context, png, spotSize, n, m);
     }
   }
 }
 
 function halfToneSpot(svgElement, context, png, spotSize, n, m) {
-  const point = pointForSpot(spotSize, n, m);
+  const point = coordinatesForGridLocation(n, m, spotSize);
   const radius = (Math.sqrt(1 - (greyScaleForPixel(png, point) / 256)) * spotSize) / 2
 
   fillHexagon(svgElement, context, radius, point.x, point.y);
