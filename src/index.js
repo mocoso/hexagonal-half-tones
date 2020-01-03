@@ -1,5 +1,6 @@
 import { PNG } from 'pngjs/browser';
 import rough from 'roughjs/dist/rough.umd';
+import { saveAs } from 'file-saver';
 
 import { gridDimensions, coordinatesForGridLocation } from './hexagonal-grid.js';
 
@@ -50,6 +51,18 @@ function pointForSpot(spotSize, n, m) {
     x: (n * spotSize) + ((m % 2) * spotSize * Math.cos(Math.PI/3)),
     y: m * spotSize * 2 * Math.cos(Math.PI/3)
   }
+}
+
+function saveFile(svgElement) {
+  svgElement.setAttribute('version', '1.1');
+  svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svgElement.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+  const svgData = svgElement.outerHTML;
+  const blob = new Blob(
+    [svgData],
+    { type: "text/plain;charset=utf-8" }
+  );
+  saveAs(blob, 'half-tone.svg');
 }
 
 const xhr = new XMLHttpRequest();
