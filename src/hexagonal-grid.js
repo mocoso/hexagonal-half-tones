@@ -1,13 +1,13 @@
 export function gridDimensions(width, height, gridSize) {
   return {
-    horizontal: Math.round(width / gridSize),
-    vertical: Math.round(height / gridSize)
+    horizontal: Math.round(width / (gridSize * Math.cos(Math.PI/6))),
+    vertical: Math.round(height / ((gridSize / 2) * (1 + Math.sin(Math.PI/6))))
   }
 }
 
 export function coordinatesForGridLocation(n, m, gridSize) {
   return {
-    x: (n * gridSize) + ((m % 2) * gridSize * Math.cos(Math.PI/3)),
-    y: m * gridSize * 2 * Math.cos(Math.PI/3)
+    x: gridSize * (n + (m % 2) / 2) * Math.cos(Math.PI/6),
+    y: gridSize * m * (1 + Math.sin(Math.PI/6)) / 2
   }
 }
