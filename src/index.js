@@ -25,14 +25,14 @@ function halfToneSpot(context, png, spotSize, n, m) {
 }
 
 function greyScaleForPixel(png, point) {
-  const index = (point.x + (point.y * png.width)) << 2;
+  const index = (Math.round(point.x) + (Math.round(point.y) * png.width)) << 2;
   return (png.data[index] + png.data[index + 1] + png.data[index + 2]) / 3;
 }
 
 function pointForSpot(spotSize, n, m) {
   return {
-    x: n * spotSize,
-    y: m * spotSize
+    x: (n * spotSize) + ((m % 2) * spotSize * Math.cos(Math.PI/3)),
+    y: m * spotSize * 2 * Math.cos(Math.PI/3)
   }
 }
 
