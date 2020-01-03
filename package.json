@@ -10,6 +10,7 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "pngjs": "^3.4.0"
+    "pngjs": "^3.4.0",
+    "roughjs": "^3.1.0"
   }
 }

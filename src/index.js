@@ -1,11 +1,12 @@
 import { PNG } from 'pngjs/browser';
 import imageUrl from '../simon.png';
+import rough from 'roughjs/dist/rough.umd';
 
 function halfTone(png, canvasElement) {
   const spotSize = 6;
   const horizontalNumberOfSpots = Math.round(png.width / spotSize)
   const verticalNumberOfSpots = Math.round(png.height / spotSize)
-  const context = canvasElement.getContext("2d");
+  const context = rough.canvas(canvasElement);
 
   for (let n = 0; n < horizontalNumberOfSpots; n++) {
     for (let m = 0; m < verticalNumberOfSpots; m++) {
@@ -27,21 +28,19 @@ function greyScaleForPixel(png, point) {
 }
 
 function fillHexagon(context, radius, x, y) {
-  context.beginPath();
-  context.fillStyle = 'black';
-  for (let i = 1; i <= 6; i++) {
+  const corners = [1, 2, 3, 4, 5, 6].map( i => {
     const angle = (1 + 2 * i) * Math.PI / 6;
     const cX = x + (Math.cos(angle) * radius);
     const cY = y + (Math.sin(angle) * radius);
-    if (i === 1) {
-      context.moveTo(cX, cY);
-    } else {
-      context.lineTo(cX, cY);
-    }
-  }
+    return [cX, cY];
+  });
 
-  context.closePath();
-  context.fill();
+  context.polygon(corners, {
+    fill: 'black',
+    roughness: 0.1,
+    strokeWidth: 0.001,
+    fillStyle: 'solid'
+  });
 }
 
 function pointForSpot(spotSize, n, m) {
