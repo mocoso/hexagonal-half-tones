@@ -18,15 +18,30 @@ function halfToneSpot(context, png, spotSize, n, m) {
   const point = pointForSpot(spotSize, n, m);
   const radius = (Math.sqrt(1 - (greyScaleForPixel(png, point) / 256)) * spotSize) / 2
 
-  context.beginPath();
-  context.arc(point.x, point.y, radius, 0, 2 * Math.PI, false);
-  context.fillStyle = 'black';
-  context.fill();
+  fillHexagon(context, radius, point.x, point.y);
 }
 
 function greyScaleForPixel(png, point) {
   const index = (Math.round(point.x) + (Math.round(point.y) * png.width)) << 2;
   return (png.data[index] + png.data[index + 1] + png.data[index + 2]) / 3;
+}
+
+function fillHexagon(context, radius, x, y) {
+  context.beginPath();
+  context.fillStyle = 'black';
+  for (let i = 1; i <= 6; i++) {
+    const angle = (1 + 2 * i) * Math.PI / 6;
+    const cX = x + (Math.cos(angle) * radius);
+    const cY = y + (Math.sin(angle) * radius);
+    if (i === 1) {
+      context.moveTo(cX, cY);
+    } else {
+      context.lineTo(cX, cY);
+    }
+  }
+
+  context.closePath();
+  context.fill();
 }
 
 function pointForSpot(spotSize, n, m) {
