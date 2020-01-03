@@ -3,7 +3,7 @@ import imageUrl from '../simon.png';
 import rough from 'roughjs/dist/rough.umd';
 
 function halfTone(png, svgElement) {
-  const spotSize = 6;
+  const spotSize = 9;
   const horizontalNumberOfSpots = Math.round(png.width / spotSize)
   const verticalNumberOfSpots = Math.round(png.height / spotSize)
   const context = rough.svg(svgElement);
@@ -37,8 +37,8 @@ function fillHexagon(svgElement, context, radius, x, y) {
 
   svgElement.appendChild(context.polygon(corners, {
     fill: 'black',
-    roughness: 0.1,
-    strokeWidth: 0.001,
+    roughness: 0.4,
+    strokeWidth: 0,
     fillStyle: 'solid'
   }));
 }
