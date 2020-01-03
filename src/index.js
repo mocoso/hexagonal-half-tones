@@ -15,19 +15,25 @@ function halfTone(png, canvasElement) {
 }
 
 function halfToneSpot(context, png, spotSize, n, m) {
-  const x = n * spotSize;
-  const y = m * spotSize;
-  const radius = (Math.sqrt(1 - (greyScaleForPixel(png, x, y) / 256)) * spotSize) / 2
+  const point = pointForSpot(spotSize, n, m);
+  const radius = (Math.sqrt(1 - (greyScaleForPixel(png, point) / 256)) * spotSize) / 2
 
   context.beginPath();
-  context.arc(x, y, radius, 0, 2 * Math.PI, false);
+  context.arc(point.x, point.y, radius, 0, 2 * Math.PI, false);
   context.fillStyle = 'black';
   context.fill();
 }
 
-function greyScaleForPixel(png, x, y) {
-  const index = (x + y * png.width) << 2;
+function greyScaleForPixel(png, point) {
+  const index = (point.x + (point.y * png.width)) << 2;
   return (png.data[index] + png.data[index + 1] + png.data[index + 2]) / 3;
+}
+
+function pointForSpot(spotSize, n, m) {
+  return {
+    x: n * spotSize,
+    y: m * spotSize
+  }
 }
 
 const xhr = new XMLHttpRequest();
