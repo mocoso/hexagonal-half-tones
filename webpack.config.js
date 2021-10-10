@@ -4,7 +4,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(html|png)$/i,
+        test: /\.png$/i,
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
