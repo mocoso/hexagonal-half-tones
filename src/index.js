@@ -1,5 +1,5 @@
 import { PNG } from 'pngjs/browser';
-import rough from 'roughjs/dist/rough.umd';
+import rough from 'roughjs/bundled/rough.esm.js';
 import { saveAs } from 'file-saver';
 
 import { gridDimensions, coordinatesForGridLocation } from './hexagonal-grid.js';
