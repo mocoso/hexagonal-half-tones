@@ -1,7 +1,10 @@
 {
-  "scripts": {},
+  "scripts": {
+    "build": "esbuild src/index.js --outfile=public/bundle.js --bundle",
+    "serve": "esbuild src/index.js --outfile=public/bundle.js --servedir=public --bundle"
+  },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "esbuild": "^0.13.14"
   },
   "dependencies": {
     "buffer": "^6.0.3",

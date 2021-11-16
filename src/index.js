@@ -5,8 +5,6 @@ import { Buffer } from 'buffer';
 
 import { gridDimensions, coordinatesForGridLocation } from './hexagonal-grid.js';
 
-import imageUrl from '../simon.png';
-
 function halfTone(png, svgElement) {
   const spotSize = 9;
   const dimensions = gridDimensions(png.width, png.height, spotSize);
@@ -67,7 +65,7 @@ function saveFile(svgElement) {
 }
 
 const xhr = new XMLHttpRequest();
-xhr.open('GET', imageUrl, true);
+xhr.open('GET', "/simon.png", true);
 xhr.responseType = 'arraybuffer';
 xhr.onload = function(e){
   if (this.status == 200){
