@@ -1,0 +1,5 @@
+image: node:22
+command: npm install && npm run build
+public: public
+domains:
+  - hexagonal-halftones.mocoso.co.uk
